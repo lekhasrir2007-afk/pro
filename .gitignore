@@ -1,0 +1,28 @@
+# Node modules
+node_modules/
+server/node_modules/
+client/node_modules/
+
+# Environment variables (Secret keys - NEVER COMMIT TO GIT)
+.env
+server/.env
+client/.env
+*.env.local
+
+# Database local files
+*.db
+server/prisma/*.db
+server/uploads/*
+!server/uploads/.gitkeep
+
+# Build outputs
+dist/
+build/
+server/dist/
+client/dist/
+
+# IDE & OS files
+.DS_Store
+.vscode/
+.idea/
+*.log

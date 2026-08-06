@@ -1,0 +1,50 @@
+// Prisma Schema for Local Development (SQLite zero-setup) & Production
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      String   @default("user")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  files     UploadedFile[]
+  aiQueries AiQuery[]
+
+  @@map("users")
+}
+
+model UploadedFile {
+  id           String   @id @default(uuid())
+  originalName String
+  filename     String
+  mimeType     String
+  size         Int
+  path         String
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt    DateTime @default(now())
+
+  @@map("uploaded_files")
+}
+
+model AiQuery {
+  id        String   @id @default(uuid())
+  prompt    String
+  response  String
+  model     String   @default("gemini-2.5-flash")
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@map("ai_queries")
+}
