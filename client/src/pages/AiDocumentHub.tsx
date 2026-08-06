@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../services/api';
-import { Sparkles, Send, FileText, Clock, Copy, Check, Loader2, AlertCircle, Bot } from 'lucide-react';
+import { Sparkles, Send, Clock, Copy, Check, Loader2, AlertCircle, Bot, Search } from 'lucide-react';
 
 interface AiQueryHistory {
   id: string;
@@ -13,7 +13,7 @@ interface AiQueryHistory {
 export const AiDocumentHub: React.FC = () => {
   const [prompt, setPrompt] = useState('');
   const [documentContext, setDocumentContext] = useState('');
-  const [activeTab, setActiveTab] = useState<'prompt' | 'document'>('prompt');
+  const [activeTab, setActiveTab] = useState<'prompt' | 'document'>('document');
   const [isGenerating, setIsGenerating] = useState(false);
   const [response, setResponse] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -52,7 +52,7 @@ export const AiDocumentHub: React.FC = () => {
       } else {
         const res = await api.post('/ai/analyze-doc', {
           documentText: documentContext,
-          instruction: prompt.trim() || 'Analyze and summarize this document.',
+          instruction: prompt.trim() || 'Analyze this research document and answer key questions.',
         });
         setResponse(res.data.analysis);
       }
@@ -77,26 +77,16 @@ export const AiDocumentHub: React.FC = () => {
         <div className="flex flex-col space-y-2 sm:flex-row sm:items-center sm:justify-between sm:space-y-0 border-b border-slate-800 pb-6">
           <div>
             <div className="inline-flex items-center space-x-2 rounded-full bg-purple-500/10 border border-purple-500/20 px-3 py-1 text-xs font-semibold text-purple-300">
-              <Sparkles className="h-3.5 w-3.5" />
-              <span>Google Gemini API Service Wrapper</span>
+              <Search className="h-3.5 w-3.5" />
+              <span>Research Help Agent</span>
             </div>
-            <h1 className="mt-2 text-2xl sm:text-3xl font-extrabold text-white">AI Playground & Document Hub</h1>
+            <h1 className="mt-2 text-2xl sm:text-3xl font-extrabold text-white">Document QA & Research Studio</h1>
             <p className="text-xs sm:text-sm text-slate-400">
-              Securely query Google Gemini AI from the server layer without exposing API secrets to the client.
+              Submit document text or ask research questions to receive structured answers powered by Google Gemini AI.
             </p>
           </div>
 
           <div className="flex items-center space-x-2 rounded-xl bg-slate-900 p-1 border border-slate-800">
-            <button
-              onClick={() => setActiveTab('prompt')}
-              className={`rounded-lg px-4 py-2 text-xs font-medium transition-all ${
-                activeTab === 'prompt'
-                  ? 'bg-purple-600 text-white shadow-md'
-                  : 'text-slate-400 hover:text-slate-200'
-              }`}
-            >
-              Direct Prompt
-            </button>
             <button
               onClick={() => setActiveTab('document')}
               className={`rounded-lg px-4 py-2 text-xs font-medium transition-all ${
@@ -105,7 +95,17 @@ export const AiDocumentHub: React.FC = () => {
                   : 'text-slate-400 hover:text-slate-200'
               }`}
             >
-              Doc Context Analysis
+              Document QA & Analysis
+            </button>
+            <button
+              onClick={() => setActiveTab('prompt')}
+              className={`rounded-lg px-4 py-2 text-xs font-medium transition-all ${
+                activeTab === 'prompt'
+                  ? 'bg-purple-600 text-white shadow-md'
+                  : 'text-slate-400 hover:text-slate-200'
+              }`}
+            >
+              Direct AI Query
             </button>
           </div>
         </div>
@@ -117,12 +117,12 @@ export const AiDocumentHub: React.FC = () => {
             <form onSubmit={handleGenerate} className="space-y-4 rounded-2xl border border-slate-800 bg-slate-900 p-6 shadow-xl">
               {activeTab === 'document' && (
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1">Document Content / Text</label>
+                  <label className="block text-xs font-semibold text-slate-300 mb-1">Document Content / Research Text</label>
                   <textarea
                     rows={6}
                     value={documentContext}
                     onChange={(e) => setDocumentContext(e.target.value)}
-                    placeholder="Paste full text or document content here to analyze..."
+                    placeholder="Paste full research text, paper excerpt, or document content here..."
                     className="w-full rounded-xl border border-slate-800 bg-slate-950 p-3.5 text-xs text-slate-200 placeholder-slate-500 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500"
                   />
                 </div>
@@ -130,7 +130,7 @@ export const AiDocumentHub: React.FC = () => {
 
               <div>
                 <label className="block text-xs font-semibold text-slate-300 mb-1">
-                  {activeTab === 'document' ? 'Custom Instruction (Optional)' : 'AI Prompt'}
+                  {activeTab === 'document' ? 'Research Question / Instruction' : 'Research Query / Prompt'}
                 </label>
                 <textarea
                   rows={4}
@@ -139,8 +139,8 @@ export const AiDocumentHub: React.FC = () => {
                   onChange={(e) => setPrompt(e.target.value)}
                   placeholder={
                     activeTab === 'document'
-                      ? 'E.g., Summarize key takeaways, extract action items, format as bullet points...'
-                      : 'Ask Gemini AI anything (e.g., Explain OAuth 2.0 PKCE flow, generate a clean TypeScript API model...)'
+                      ? 'E.g., What are the key findings? What methodology was used? Summarize the main arguments...'
+                      : 'Ask the Research Help Agent any question...'
                   }
                   className="w-full rounded-xl border border-slate-800 bg-slate-950 p-3.5 text-xs text-slate-200 placeholder-slate-500 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500"
                 />
@@ -149,7 +149,7 @@ export const AiDocumentHub: React.FC = () => {
               <div className="flex items-center justify-between pt-2">
                 <span className="text-[11px] text-slate-500 flex items-center space-x-1">
                   <Bot className="h-3.5 w-3.5 text-purple-400" />
-                  <span>Model: gemini-2.5-flash</span>
+                  <span>Research Agent: gemini-2.5-flash</span>
                 </span>
                 <button
                   type="submit"
@@ -159,12 +159,12 @@ export const AiDocumentHub: React.FC = () => {
                   {isGenerating ? (
                     <>
                       <Loader2 className="h-4 w-4 animate-spin" />
-                      <span>Processing...</span>
+                      <span>Analyzing Document...</span>
                     </>
                   ) : (
                     <>
                       <Send className="h-3.5 w-3.5" />
-                      <span>Execute Query</span>
+                      <span>Submit Question</span>
                     </>
                   )}
                 </button>
@@ -185,7 +185,7 @@ export const AiDocumentHub: React.FC = () => {
                 <div className="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
                   <div className="flex items-center space-x-2 text-xs font-bold text-purple-300">
                     <Sparkles className="h-4 w-4 text-purple-400" />
-                    <span>Gemini AI Response</span>
+                    <span>Research Agent Answer</span>
                   </div>
                   <button
                     onClick={() => handleCopy(response)}
@@ -202,11 +202,11 @@ export const AiDocumentHub: React.FC = () => {
             )}
           </div>
 
-          {/* Right Column: AI Query History */}
+          {/* Right Column: Research Query History */}
           <div className="lg:col-span-5 space-y-4">
             <h2 className="text-lg font-bold text-slate-100 flex items-center space-x-2">
               <Clock className="h-5 w-5 text-purple-400" />
-              <span>Prompt History</span>
+              <span>Research Query History</span>
             </h2>
 
             <div className="overflow-hidden rounded-2xl border border-slate-800 bg-slate-900 max-h-[600px] overflow-y-auto">
@@ -214,7 +214,7 @@ export const AiDocumentHub: React.FC = () => {
                 <div className="p-6 text-center text-xs text-slate-500">Loading history...</div>
               ) : history.length === 0 ? (
                 <div className="p-6 text-center text-xs text-slate-500">
-                  No previous AI queries found. Submit a prompt to view execution records.
+                  No previous research queries. Submit a document to view AI answers.
                 </div>
               ) : (
                 <div className="divide-y divide-slate-800/80">
@@ -244,3 +244,5 @@ export const AiDocumentHub: React.FC = () => {
     </div>
   );
 };
+
+export default AiDocumentHub;

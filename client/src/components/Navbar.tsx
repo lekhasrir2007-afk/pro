@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Sparkles, LayoutDashboard, FileText, LogOut, User, Cpu } from 'lucide-react';
+import { Sparkles, LayoutDashboard, LogOut, User, Search } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
   const { user, logout, isAuthenticated } = useAuth();
@@ -21,10 +21,10 @@ export const Navbar: React.FC = () => {
         {/* Brand Logo */}
         <Link to="/" className="flex items-center space-x-3 group">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-pink-500 shadow-lg shadow-indigo-500/20 group-hover:scale-105 transition-all">
-            <Cpu className="h-5 w-5 text-white" />
+            <Search className="h-5 w-5 text-white" />
           </div>
           <span className="text-xl font-bold bg-gradient-to-r from-white via-slate-200 to-indigo-300 bg-clip-text text-transparent">
-            Antigravity<span className="text-indigo-400 font-extrabold">Studio</span>
+            Research Help <span className="text-indigo-400 font-extrabold">Agent</span>
           </span>
         </Link>
 
@@ -52,7 +52,7 @@ export const Navbar: React.FC = () => {
               }`}
             >
               <Sparkles className="h-4 w-4 text-purple-400" />
-              <span>AI Playground</span>
+              <span>Doc QA Studio</span>
             </Link>
           </nav>
         ) : null}
@@ -65,7 +65,7 @@ export const Navbar: React.FC = () => {
                 <User className="h-3.5 w-3.5 text-indigo-400" />
                 <span className="font-medium text-slate-200">{user.name}</span>
                 <span className="rounded-full bg-indigo-500/20 px-2 py-0.5 text-[10px] uppercase tracking-wider text-indigo-300 border border-indigo-500/30">
-                  {user.role}
+                  {user.role || 'researcher'}
                 </span>
               </div>
               <button
@@ -98,3 +98,5 @@ export const Navbar: React.FC = () => {
     </header>
   );
 };
+
+export default Navbar;

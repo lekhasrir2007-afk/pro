@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Cpu, Mail, Lock, ArrowRight, AlertCircle, Loader2 } from 'lucide-react';
+import { Search, Mail, Lock, ArrowRight, AlertCircle, Loader2 } from 'lucide-react';
 
 export const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -37,10 +37,10 @@ export const Login: React.FC = () => {
       <div className="w-full max-w-md space-y-8 rounded-2xl border border-slate-800 bg-slate-900/90 p-8 shadow-2xl shadow-indigo-950/40 backdrop-blur-xl">
         <div className="text-center">
           <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-pink-500 shadow-lg shadow-indigo-500/20 mb-4">
-            <Cpu className="h-6 w-6 text-white" />
+            <Search className="h-6 w-6 text-white" />
           </div>
-          <h2 className="text-2xl font-bold tracking-tight text-slate-100">Welcome back</h2>
-          <p className="mt-2 text-xs text-slate-400">Sign in to your production full-stack workspace</p>
+          <h2 className="text-2xl font-bold tracking-tight text-slate-100">Welcome Back</h2>
+          <p className="mt-2 text-xs text-slate-400">Sign in to your Research Help Agent workspace</p>
         </div>
 
         {error && (
@@ -64,7 +64,7 @@ export const Login: React.FC = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="block w-full rounded-lg border border-slate-800 bg-slate-950 pl-10 pr-3 py-2.5 text-sm text-slate-200 placeholder-slate-500 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
-                  placeholder="name@example.com"
+                  placeholder="researcher@example.com"
                 />
               </div>
             </div>
@@ -113,3 +113,5 @@ export const Login: React.FC = () => {
     </div>
   );
 };
+
+export default Login;

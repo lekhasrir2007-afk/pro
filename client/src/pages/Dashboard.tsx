@@ -3,7 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import { FileUploadDropzone } from '../components/FileUploadDropzone';
 import api from '../services/api';
 import { Link } from 'react-router-dom';
-import { Sparkles, FileText, Database, ShieldCheck, Trash2, ArrowUpRight, Cpu, Layers } from 'lucide-react';
+import { Sparkles, FileText, Database, ShieldCheck, Trash2, ArrowUpRight, Search, Layers } from 'lucide-react';
 
 interface UploadedFileItem {
   id: string;
@@ -51,24 +51,24 @@ export const Dashboard: React.FC = () => {
           <div className="relative z-10 max-w-3xl space-y-3">
             <div className="inline-flex items-center space-x-2 rounded-full bg-indigo-500/10 border border-indigo-500/20 px-3 py-1 text-xs font-semibold text-indigo-300">
               <ShieldCheck className="h-3.5 w-3.5" />
-              <span>JWT Authenticated Session</span>
+              <span>Research Help Agent Workspace</span>
             </div>
             <h1 className="text-3xl font-extrabold tracking-tight sm:text-4xl text-white">
-              Welcome back, {user?.name || 'Developer'}!
+              Welcome, {user?.name || 'Researcher'}!
             </h1>
             <p className="text-sm text-slate-300">
-              Your production full-stack environment is operational. Express API server, Prisma PostgreSQL database, and backend-secured Google Gemini AI are connected.
+              Submit your research documents, analyze paper text, and ask questions to get instant AI-driven answers powered by Google Gemini API & Supabase.
             </p>
           </div>
 
           <div className="absolute right-6 top-1/2 -translate-y-1/2 hidden lg:block opacity-20">
-            <Cpu className="h-64 w-64 text-indigo-400" />
+            <Search className="h-64 w-64 text-indigo-400" />
           </div>
         </div>
 
         {/* Feature Overview Grid */}
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {/* Card 1: AI Playground */}
+          {/* Card 1: AI QA Studio */}
           <div className="group relative rounded-2xl border border-slate-800 bg-slate-900/60 p-6 transition-all hover:border-purple-500/40 hover:bg-slate-900">
             <div className="flex items-center justify-between">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-500/10 text-purple-400">
@@ -78,20 +78,20 @@ export const Dashboard: React.FC = () => {
                 <ArrowUpRight className="h-5 w-5" />
               </Link>
             </div>
-            <h3 className="mt-4 text-lg font-bold text-slate-100">AI Document Hub</h3>
+            <h3 className="mt-4 text-lg font-bold text-slate-100">Document QA Studio</h3>
             <p className="mt-2 text-xs text-slate-400">
-              Interact with Google Gemini API to analyze files, generate structured text, and run AI prompts safely.
+              Submit document text or research context and ask targeted questions for instant AI answers and summaries.
             </p>
             <Link
               to="/ai-hub"
               className="mt-4 inline-flex items-center space-x-1.5 text-xs font-semibold text-purple-400 hover:text-purple-300"
             >
-              <span>Launch Playground</span>
+              <span>Ask Questions</span>
               <span>&rarr;</span>
             </Link>
           </div>
 
-          {/* Card 2: Multer File Storage */}
+          {/* Card 2: Document Storage */}
           <div className="group relative rounded-2xl border border-slate-800 bg-slate-900/60 p-6 transition-all hover:border-indigo-500/40 hover:bg-slate-900">
             <div className="flex items-center justify-between">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-500/10 text-indigo-400">
@@ -101,25 +101,25 @@ export const Dashboard: React.FC = () => {
                 {files.length} Files
               </span>
             </div>
-            <h3 className="mt-4 text-lg font-bold text-slate-100">File Storage</h3>
+            <h3 className="mt-4 text-lg font-bold text-slate-100">Research Documents</h3>
             <p className="mt-2 text-xs text-slate-400">
-              Upload local documents via Multer middleware with size validation and Prisma DB metadata mapping.
+              Upload local PDFs, DOCX, TXT, MD notes, and research papers for analysis.
             </p>
           </div>
 
-          {/* Card 3: Prisma & PostgreSQL */}
+          {/* Card 3: Supabase & PostgreSQL */}
           <div className="group relative rounded-2xl border border-slate-800 bg-slate-900/60 p-6 transition-all hover:border-emerald-500/40 hover:bg-slate-900">
             <div className="flex items-center justify-between">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-400">
                 <Database className="h-5 w-5" />
               </div>
               <span className="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full">
-                Prisma ORM
+                Supabase DB
               </span>
             </div>
-            <h3 className="mt-4 text-lg font-bold text-slate-100">PostgreSQL Relational DB</h3>
+            <h3 className="mt-4 text-lg font-bold text-slate-100">Secure Database</h3>
             <p className="mt-2 text-xs text-slate-400">
-              Schema models for Users, UploadedFiles, and AiQueries configured with relational integrity.
+              All research sessions, document records, and prompt history are safely stored in PostgreSQL / Supabase.
             </p>
           </div>
         </div>
@@ -130,7 +130,7 @@ export const Dashboard: React.FC = () => {
           <div className="lg:col-span-1 space-y-4">
             <h2 className="text-lg font-bold text-slate-100 flex items-center space-x-2">
               <Layers className="h-5 w-5 text-indigo-400" />
-              <span>Quick Upload</span>
+              <span>Submit Document</span>
             </h2>
             <FileUploadDropzone onUploadSuccess={() => fetchFiles()} />
           </div>
@@ -138,7 +138,7 @@ export const Dashboard: React.FC = () => {
           {/* Files List Table */}
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center justify-between">
-              <h2 className="text-lg font-bold text-slate-100">Your Uploaded Files</h2>
+              <h2 className="text-lg font-bold text-slate-100">Submitted Research Files</h2>
               <button
                 onClick={fetchFiles}
                 className="text-xs font-medium text-slate-400 hover:text-indigo-400 transition-colors"
@@ -149,10 +149,10 @@ export const Dashboard: React.FC = () => {
 
             <div className="overflow-hidden rounded-2xl border border-slate-800 bg-slate-900">
               {loadingFiles ? (
-                <div className="p-8 text-center text-xs text-slate-400">Loading files...</div>
+                <div className="p-8 text-center text-xs text-slate-400">Loading documents...</div>
               ) : files.length === 0 ? (
                 <div className="p-8 text-center text-xs text-slate-500">
-                  No files uploaded yet. Drag & drop a file in the uploader to get started.
+                  No research files submitted yet. Upload a document to analyze.
                 </div>
               ) : (
                 <div className="divide-y divide-slate-800">
@@ -172,7 +172,7 @@ export const Dashboard: React.FC = () => {
                         <button
                           onClick={() => handleDeleteFile(file.id)}
                           className="rounded-lg p-1.5 text-slate-500 hover:bg-rose-500/10 hover:text-rose-400 transition-colors"
-                          title="Delete file"
+                          title="Delete document"
                         >
                           <Trash2 className="h-4 w-4" />
                         </button>
@@ -188,3 +188,5 @@ export const Dashboard: React.FC = () => {
     </div>
   );
 };
+
+export default Dashboard;

@@ -1,5 +1,5 @@
 {
-  "name": "fullstack-ai-app-server",
+  "name": "research-help-agent-server",
   "private": true,
   "version": "1.0.0",
   "type": "module",
@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@google/genai": "*",
-    "@supabase/supabase-js": "^2.112.1",
+    "@supabase/supabase-js": "^2.48.1",
     "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
